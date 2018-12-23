@@ -15,28 +15,31 @@ def check(args: Iterable=(), kwargs: Dict={}, returns=None):
     """
     def wrap(func):
         def wrapped_func(*args_actual, **kwargs_actual):
-
             if len(args) != len(args):
-                raise Exception("WRONG")
+                raise Exception("")
+
             for pair in zip(args_actual, args):
-                _check_type(*pair)
+                if not is_correct_type(*pair):
+                    raise AssertionError("Value <{}> is not of type <{}>".format(pair[0], pair[1]))
+            
+            for key in kwargs.keys():
+                if key in kwargs_actual and not is_correct_type(kwargs_actual[key], kwargs[key]):
+                    raise AssertionError("Value <{}> is not of type <{}>".format(kwargs[key], kwargs_actual[key]))
 
             returned = func(*args, **kwargs)
             if returns is not None and not isinstance(returned, returns):
-                raise AssertionError("Returned value is not of type {}".format(returns))
+                raise AssertionError("Returned value <{}> is not of type <{}>".format(returned, returns))
+
             return returned
         return wrapped_func
     return wrap
 
 
-def _check_type(var: Any, typ: Type) -> bool:
-    if not isinstance(var, typ):
-        raise AssertionError("Value <{}> is not of type {}".format(var, typ))
-    return True
+def is_correct_type(var: Any, typ: Type) -> bool:
+    return isinstance(var, typ)
 
 
 class TypeCheckError(TypeError):
-
     def __init__(self, msg):
         pass
 

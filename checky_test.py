@@ -38,6 +38,12 @@ class BasicCheckyTests(unittest.TestCase):
         def takes_and_returns_right_type(num):
             return 1
 
+    def test_takes_right_keyword_type(self):
+        @check(kwargs = {"name": str})
+        def takes_right_keyword_type(name=""):
+            pass
+        takes_right_keyword_type(name="checky")
+
     # Negative tests
 
     def test_return_wrong_type(self):
@@ -53,6 +59,13 @@ class BasicCheckyTests(unittest.TestCase):
             pass
         with self.assertRaises(AssertionError):
             takes_wrong_type("spam")
+
+    def test_wrong_keyword_argument_type(self):
+        @check(kwargs = {"name": str})
+        def takes_wrong_keyword_argument_type(name=""):
+            pass
+        with self.assertRaises(AssertionError):
+            takes_wrong_keyword_argument_type(name=1)
 
     
 if __name__ == '__main__':
