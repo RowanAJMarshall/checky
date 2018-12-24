@@ -16,9 +16,9 @@ def check(args: Iterable=(), kwargs: Dict={}, returns=None):
     def wrap(func):
         def wrapped_func(*args_actual, **kwargs_actual):
             if len(args) < len(args_actual):
-                raise IndexError("Number of arguments ({}) is less than number of argument types ({})".format(len(args_actual, len(args))))
+                raise IndexError("Number of arguments ({}) is less than number of argument types ({})".format(len(args_actual), len(args)))
             elif len(args) > len(args_actual):
-                raise IndexError("Number of arguments ({}) is more than number of argument types ({})".format(len(args_actual, len(args))))
+                raise IndexError("Number of arguments ({}) is more than number of argument types ({})".format(len(args_actual), len(args)))
 
             for pair in zip(args_actual, args):
                 if not is_correct_type(*pair):
