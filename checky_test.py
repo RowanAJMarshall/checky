@@ -1,6 +1,6 @@
 import unittest
 
-from checky import check
+from checky import check, TypeCheckError
 
 class BasicCheckyTests(unittest.TestCase):
 
@@ -16,8 +16,8 @@ class BasicCheckyTests(unittest.TestCase):
         @check(args = [int, str])
         def more_arguments_than_types(s):
             pass
-        with self.assertRaises(Exception):
-            more_arguments_than_types()
+        with self.assertRaises(IndexError):
+            more_arguments_than_types(1)
 
     # Positive tests
 
@@ -50,21 +50,21 @@ class BasicCheckyTests(unittest.TestCase):
         @check(returns = str)
         def return_wrong_type():
             return 1
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(TypeCheckError):
             return_wrong_type()
 
     def test_wrong_type(self):
         @check(args = [int])
         def takes_wrong_type(word):
             pass
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(TypeCheckError):
             takes_wrong_type("spam")
 
     def test_wrong_keyword_argument_type(self):
         @check(kwargs = {"name": str})
         def takes_wrong_keyword_argument_type(name=""):
             pass
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(TypeCheckError):
             takes_wrong_keyword_argument_type(name=1)
 
     
