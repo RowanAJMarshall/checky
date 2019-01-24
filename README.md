@@ -1,5 +1,10 @@
 # Checky: a runtime type-checking decorator for Python
 
+## About
+
+Checky lets you dynamically type-check your code at runtime, raising an error
+if a function is called with or returns an unexpected type
+
 ## Usage
 
 ```python
@@ -17,3 +22,9 @@ def greet(name="Rowan"):
     return "Hello " + name + "!"
 
 ```
+
+## Changelog
+
+0.1.0
+-----
+ * Support for simple builtin data types e.g. str, int
